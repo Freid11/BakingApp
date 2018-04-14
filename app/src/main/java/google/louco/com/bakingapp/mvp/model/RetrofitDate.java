@@ -17,6 +17,7 @@ public class RetrofitDate {
     @Singleton
     public Retrofit getRetrofit(){
         return new Retrofit.Builder()
+                .baseUrl(URL)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();

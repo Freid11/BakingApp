@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName;
 class Ingredient {
 
     @SerializedName("quantity")
-    private Integer quantity;
+    private Float quantity;
 
     @SerializedName("measure")
     private String measure;
@@ -16,13 +16,13 @@ class Ingredient {
     @SerializedName("ingredient")
     private String ingredient;
 
-    public Ingredient(Integer quantity, String measure, String ingredient) {
+    public Ingredient(Float quantity, String measure, String ingredient) {
         this.quantity = quantity;
         this.measure = measure;
         this.ingredient = ingredient;
     }
 
-    public Integer getQuantity() {
+    public Float getQuantity() {
         return quantity;
     }
 

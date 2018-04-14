@@ -15,12 +15,16 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "URL" , "\"https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json\""
+            buildConfigField "String", "URL" , "\"https://d17h27t6h515a5.cloudfront.net/\""
         }
         debug{
-            buildConfigField "String", "URL" , "\"https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json\""
+            buildConfigField "String", "URL" , "\"https://d17h27t6h515a5.cloudfront.net/\""
         }
 
+    }
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
     }
 }
 
@@ -54,8 +58,7 @@ dependencies {
     compile "com.squareup.retrofit2:converter-gson:2.3.0"
 
     //Загрузка изображения
-    compile 'com.github.bumptech.glide:glide:4.3.1'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.3.1'
+    implementation 'com.squareup.picasso:picasso:2.71828'
 
     //Dagger
     compile "com.google.dagger:dagger:2.13"

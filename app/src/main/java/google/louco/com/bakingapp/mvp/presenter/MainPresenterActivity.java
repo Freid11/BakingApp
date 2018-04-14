@@ -16,24 +16,26 @@ import io.reactivex.observers.DisposableObserver;
 public class MainPresenterActivity extends MvpPresenter<MainActivityView> {
 
     public MainPresenterActivity() {
-       new RetrofitServer().getRecipes(new RequestRecipes());
+        new RetrofitServer().getRecipes(new RequestRecipes());
     }
 
-    class RequestRecipes extends DisposableObserver<List<Recipes>>{
+    class RequestRecipes extends DisposableObserver<List<Recipes>> {
 
         @Override
         public void onNext(List<Recipes> recipes) {
-            Log.d("Louco", ""+ recipes.size());
+            getViewState().showListRecipes(recipes);
+            for (Recipes re : recipes) {
+                Log.d("Louco", "Image: "+ re.getImage());
+            }
         }
 
         @Override
         public void onError(Throwable e) {
-
+            Log.e("Louco", "error" + e.getMessage());
         }
 
         @Override
         public void onComplete() {
-
         }
     }
 }
