@@ -1,7 +1,9 @@
 package google.louco.com.bakingapp.ui.activity;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
@@ -39,7 +41,7 @@ public class MainActivity extends MvpAppCompatActivity implements MainActivityVi
         ButterKnife.bind(this);
 
         rvListRecipes = new RVListRecipes(new ClickRecipe());
-        recyclerView.setLayoutManager(new GridLayoutManager(this, COUNT_SPAN));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(rvListRecipes);
     }
 
@@ -48,11 +50,22 @@ public class MainActivity extends MvpAppCompatActivity implements MainActivityVi
         rvListRecipes.updateList(recipes);
     }
 
+    @Override
+    public void NewActivity(Activity activity, Recipes recipes) {
+        Bundle bundle = new Bundle();
+        bundle.putString(Recipes.KEY_SERIALIZABLE, recipes.ToJson());
+
+        Intent intent = new Intent(this, activity.getClass());
+        intent.putExtras(bundle);
+
+        startActivity(intent);
+    }
+
     private class ClickRecipe implements RVListRecipes.OnClickRecipe{
 
         @Override
         public void onClick(Recipes recipes) {
-            Toast.makeText(getBaseContext(), recipes.getName(), Toast.LENGTH_SHORT).show();
+            presenterActivity.ClickRecipe(recipes);
         }
     }
 }

@@ -10,6 +10,7 @@ import java.util.List;
 import google.louco.com.bakingapp.JsonObj.Recipes;
 import google.louco.com.bakingapp.mvp.model.RetrofitServer;
 import google.louco.com.bakingapp.mvp.view.MainActivityView;
+import google.louco.com.bakingapp.ui.activity.BakingActivity;
 import io.reactivex.observers.DisposableObserver;
 
 @InjectViewState
@@ -19,14 +20,15 @@ public class MainPresenterActivity extends MvpPresenter<MainActivityView> {
         new RetrofitServer().getRecipes(new RequestRecipes());
     }
 
+    public void ClickRecipe(Recipes recipes){
+        getViewState().NewActivity(new BakingActivity(),recipes);
+    }
+
     class RequestRecipes extends DisposableObserver<List<Recipes>> {
 
         @Override
         public void onNext(List<Recipes> recipes) {
             getViewState().showListRecipes(recipes);
-            for (Recipes re : recipes) {
-                Log.d("Louco", "Image: "+ re.getImage());
-            }
         }
 
         @Override

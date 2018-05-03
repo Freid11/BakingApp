@@ -1,7 +1,5 @@
 package google.louco.com.bakingapp.mvp.model;
 
-import android.os.Build;
-
 import java.util.List;
 
 import javax.inject.Inject;
@@ -21,6 +19,7 @@ public class RetrofitServer {
 
     public RetrofitServer() {
         RetrofitAplication.getComponent().inject(this);
+
     }
 
     public void getRecipes(DisposableObserver<List<Recipes>> disposableObserver){

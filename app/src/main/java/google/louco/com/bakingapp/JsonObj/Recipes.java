@@ -1,13 +1,18 @@
 package google.louco.com.bakingapp.JsonObj;
 
+import android.text.TextUtils;
+
+import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
 /**
- *  Список рецептов
+ * Список рецептов
  */
-public class Recipes {
+public class Recipes{
+
+    public static String KEY_SERIALIZABLE = "Recipes";
 
     @SerializedName("id")
     private Integer id;
@@ -44,8 +49,8 @@ public class Recipes {
         return name;
     }
 
-    public List<Ingredient> getIngredients() {
-        return ingredients;
+    public String getIngredients() {
+        return TextUtils.join("\n",ingredients);
     }
 
     public List<Step> getSteps() {
@@ -58,5 +63,15 @@ public class Recipes {
 
     public String getImage() {
         return image;
+    }
+
+    public String ToJson(){
+        Gson gson = new Gson();
+        return gson.toJson(this);
+    }
+
+    public static Recipes FromJson(String text){
+        Gson gson = new Gson();
+        return gson.fromJson(text, Recipes.class);
     }
 }

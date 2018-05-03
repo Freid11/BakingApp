@@ -22,15 +22,8 @@ class Ingredient {
         this.ingredient = ingredient;
     }
 
-    public Float getQuantity() {
-        return quantity;
-    }
-
-    public String getMeasure() {
-        return measure;
-    }
-
-    public String getIngredient() {
-        return ingredient;
+    @Override
+    public String toString() {
+        return String.valueOf(quantity) + "/" + measure + " - " + ingredient;
     }
 }
