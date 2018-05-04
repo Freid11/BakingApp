@@ -5,16 +5,18 @@ import android.app.FragmentManager;
 import android.content.Intent;
 
 import android.os.Bundle;
+
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
 import butterknife.ButterKnife;
 import google.louco.com.bakingapp.JsonObj.Recipes;
 import google.louco.com.bakingapp.R;
+import google.louco.com.bakingapp.mvp.model.ActionActivity;
 import google.louco.com.bakingapp.mvp.presenter.BakingPresenterActivity;
 import google.louco.com.bakingapp.mvp.view.BakingActivityView;
 
-public class BakingActivity extends MvpAppCompatActivity implements BakingActivityView{
+public class BakingActivity extends MvpAppCompatActivity implements ActionActivity, BakingActivityView {
 
     @InjectPresenter
     BakingPresenterActivity presenterActivity;
@@ -27,11 +29,12 @@ public class BakingActivity extends MvpAppCompatActivity implements BakingActivi
         setContentView(R.layout.baking_activity);
         ButterKnife.bind(this);
 
-        Intent intent = this.getIntent();
-        Bundle bundle = intent.getExtras();
-
-        if (bundle != null) {
-            presenterActivity.startActivity(Recipes.FromJson(bundle.getString(Recipes.KEY_SERIALIZABLE)));
+        if(savedInstanceState == null) {
+            Intent intent = this.getIntent();
+            Bundle bundleRecipes = intent.getExtras();
+            if (bundleRecipes != null ) {
+                presenterActivity.startActivity(Recipes.FromJson(bundleRecipes.getString(Recipes.KEY_SERIALIZABLE)));
+            }
         }
 
         fragmentManager = getFragmentManager();
@@ -41,6 +44,13 @@ public class BakingActivity extends MvpAppCompatActivity implements BakingActivi
     public void showFragment(Fragment fragment) {
         fragmentManager.beginTransaction()
                 .replace(R.id.fl_baking, fragment)
+                .addToBackStack(null)
                 .commit();
     }
+
+    @Override
+    public void onAction(Fragment fragment) {
+        presenterActivity.ActionActivity(fragment);
+    }
+
 }

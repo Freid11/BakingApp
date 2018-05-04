@@ -1,5 +1,7 @@
 package google.louco.com.bakingapp.mvp.presenter;
 
+import android.app.Fragment;
+
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
@@ -17,5 +19,9 @@ public class BakingPresenterActivity extends MvpPresenter<BakingActivityView>{
         StepFragment stepFragment = new StepFragment();
         stepFragment.setRecipes(recipes);
         getViewState().showFragment(stepFragment);
+    }
+
+    public void ActionActivity(Fragment fragment){
+        getViewState().showFragment(fragment);
     }
 }

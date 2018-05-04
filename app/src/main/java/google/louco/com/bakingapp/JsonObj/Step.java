@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Шаг приготовления
  */
-class Step {
+public class Step {
 
     @SerializedName("id")
     private Integer id;

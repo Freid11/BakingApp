@@ -21,8 +21,8 @@
 
         <activity android:name=".ui.activity.BakingActivity"
             android:theme="@style/noToolBar">
-            <meta-data android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.activity.MainActivity"/>
+            <!--<meta-data android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.activity.MainActivity"/>-->
         </activity>
 
     </application>

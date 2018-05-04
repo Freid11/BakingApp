@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="margin_rv_list_recipes">4dp</dimen>
+    <dimen name="margin_name_step">8dp</dimen>
     <dimen name="count_span">1dp</dimen>
-    <dimen name="collapseHeight">100dp</dimen>
+    <dimen name="collapseHeight">150dp</dimen>
     <dimen name="margin_cart">2dp</dimen>
     <dimen name="elevation_cart">2dp</dimen>
     <dimen name="height_cart">100dp</dimen>

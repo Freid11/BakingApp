@@ -50,15 +50,14 @@ public class Recipes{
     }
 
     public String getIngredients() {
-        return TextUtils.join("\n",ingredients);
+        String text = "Servings : "
+                + String.valueOf(servings)+"\n"
+                + TextUtils.join("\n" ,ingredients);
+        return text;
     }
 
     public List<Step> getSteps() {
         return steps;
-    }
-
-    public Integer getServings() {
-        return servings;
     }
 
     public String getImage() {
