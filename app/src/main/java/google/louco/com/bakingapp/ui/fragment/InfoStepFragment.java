@@ -52,6 +52,13 @@ public class InfoStepFragment extends MvpFragment {
         appCompatActivity.setSupportActionBar(toolbar);
         appCompatActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        DescriptionFragment fragment = new DescriptionFragment();
+        fragment.setText(step.getDescription());
+
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.fl_description, fragment)
+                .commit();
     }
 
     @Override
