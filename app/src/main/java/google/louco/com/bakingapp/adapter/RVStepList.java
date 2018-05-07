@@ -62,7 +62,7 @@ public class RVStepList extends RecyclerView.Adapter<RVStepList.ViewHolder> {
 
         private void Bind(Step step){
             LastStep = step;
-            String text = String.valueOf(step.getId()+1)+": "+step.getShortDescription();
+            String text = step.getShortDescription();
             nameStep.setText(text);
         }
     }
