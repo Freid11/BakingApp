@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,6 +29,7 @@ public class InfoStepFragment extends MvpFragment implements google.louco.com.ba
     private Recipes recipes;
     private Step step;
     private VideoFragment videoFragment;
+    private View orientationView;
 
     @InjectPresenter
     InfoStepPresenter presenter;
@@ -57,7 +57,8 @@ public class InfoStepFragment extends MvpFragment implements google.louco.com.ba
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         inflater = LayoutInflater.from(container.getContext());
         View view = inflater.inflate(R.layout.info_step_fragment, container, false);
-        ButterKnife.bind(this, view);
+        orientationView = view.findViewById(R.id.bt_back);
+        if (orientationView != null) ButterKnife.bind(this, view);
         return view;
     }
 
@@ -66,27 +67,32 @@ public class InfoStepFragment extends MvpFragment implements google.louco.com.ba
         super.onViewCreated(view, savedInstanceState);
         AppCompatActivity appCompatActivity = (AppCompatActivity) getActivity();
 
-        toolbar.setTitle(recipes.getName());
-        appCompatActivity.setSupportActionBar(toolbar);
-        appCompatActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (savedInstanceState == null) {
+            presenter.SaveParam(recipes, step, orientationView == null);
 
-        if(savedInstanceState == null) presenter.SaveParam(recipes, step);
-
-        btBack.setOnClickListener(v -> presenter.ClickBack());
-        btNext.setOnClickListener(v -> presenter.ClickNext());
+            if (orientationView != null) toolbar.setTitle(recipes.getName());
+        }
+        if (orientationView != null) {
+            appCompatActivity.setSupportActionBar(toolbar);
+            appCompatActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            btBack.setOnClickListener(v -> presenter.ClickBack());
+            btNext.setOnClickListener(v -> presenter.ClickNext());
+        }
     }
 
-    private void fillFragment(Step step){
+    private void fillFragment(Step step) {
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
 
         if (!step.getVideoURL().isEmpty()) {
             videoFragment = new VideoFragment();
             videoFragment.setURL(step.getVideoURL());
+
+            if (orientationView == null) videoFragment.setFull(true);
+
             fragmentTransaction.replace(R.id.fl_Video, videoFragment);
-        }else{
-            if(videoFragment!=null) fragmentTransaction.remove(videoFragment);
+        } else {
+            if (videoFragment != null) fragmentTransaction.remove(videoFragment);
         }
 
         DescriptionFragment fragment = new DescriptionFragment();
@@ -94,6 +100,11 @@ public class InfoStepFragment extends MvpFragment implements google.louco.com.ba
         fragmentTransaction.replace(R.id.fl_description, fragment);
 
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -121,18 +132,23 @@ public class InfoStepFragment extends MvpFragment implements google.louco.com.ba
 
     @Override
     public void showStep(String text) {
-        CountStep.setText(text);
+        if(orientationView!=null) CountStep.setText(text);
     }
 
     @Override
     public void showBack(boolean show) {
-        if(show) btBack.setVisibility(View.VISIBLE);
+        if (show) btBack.setVisibility(View.VISIBLE);
         else btBack.setVisibility(View.INVISIBLE);
     }
 
     @Override
     public void showNext(boolean show) {
-        if(show) btNext.setVisibility(View.VISIBLE);
+        if (show) btNext.setVisibility(View.VISIBLE);
         else btNext.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void showTitle(String name) {
+        toolbar.setTitle(name);
     }
 }

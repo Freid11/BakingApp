@@ -1,0 +1,13 @@
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="google.louco.com.bakingapp.ui.activity.MainActivity">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_list_recipes_large_land"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/margin_rv_list_recipes"
+        android:layout_width="match_parent" />
+
+</android.support.constraint.ConstraintLayout>

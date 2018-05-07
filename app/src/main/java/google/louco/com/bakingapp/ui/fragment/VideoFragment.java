@@ -36,6 +36,7 @@ public class VideoFragment extends Fragment {
 
     private String URLText;
     private SimpleExoPlayer player;
+    private boolean isFull = false;
     private long playbackPosition = 0;
     private long currentWindow = 0;
     private boolean playWhenReady;
@@ -48,6 +49,7 @@ public class VideoFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+        assert container != null;
         inflater = LayoutInflater.from(container.getContext());
         View view = inflater.inflate(R.layout.video_fragment, container, false);
         ButterKnife.bind(this, view);
@@ -70,7 +72,9 @@ public class VideoFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        hideSystemUi();
+        if(isFull) {
+            hideSystemUi();
+        }
         if ((Util.SDK_INT <= 23 || player == null)) {
             initializePlayer();
         }
@@ -115,7 +119,6 @@ public class VideoFragment extends Fragment {
         pvVideo.setPlayer(player);
         player.setPlayWhenReady(false);
         player.seekTo((int) currentWindow, playbackPosition);
-
         MediaSource source = buildMediaSource(Uri.parse(URLText));
         player.prepare(source);
     }
@@ -128,6 +131,10 @@ public class VideoFragment extends Fragment {
             player.release();
             player = null;
         }
+    }
+
+    public void setFull(boolean full) {
+        isFull = full;
     }
 
     public void setURL(String URL) {

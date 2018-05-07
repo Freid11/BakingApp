@@ -3,6 +3,7 @@ package google.louco.com.bakingapp.ui.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
@@ -21,13 +22,15 @@ import google.louco.com.bakingapp.adapter.RVListRecipes;
 import google.louco.com.bakingapp.mvp.presenter.MainPresenterActivity;
 import google.louco.com.bakingapp.mvp.view.MainActivityView;
 
-public class MainActivity extends MvpAppCompatActivity implements MainActivityView{
+public class MainActivity extends MvpAppCompatActivity implements MainActivityView {
 
     @InjectPresenter
     MainPresenterActivity presenterActivity;
 
     @BindView(R.id.rv_list_recipes)
     RecyclerView recyclerView;
+
+    private RecyclerView recyclerViewLand;
 
     @BindDimen(R.dimen.count_span)
     int COUNT_SPAN;
@@ -38,11 +41,17 @@ public class MainActivity extends MvpAppCompatActivity implements MainActivityVi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
-
+        recyclerViewLand = (RecyclerView) findViewById(R.id.rv_list_recipes_large_land);
         rvListRecipes = new RVListRecipes(new ClickRecipe());
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(rvListRecipes);
+        if (recyclerViewLand == null) {
+            ButterKnife.bind(this);
+            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+            recyclerView.setAdapter(rvListRecipes);
+        }else{
+            recyclerViewLand.setLayoutManager(new GridLayoutManager(this,2));
+            recyclerViewLand.setAdapter(rvListRecipes);
+        }
+
     }
 
     @Override
@@ -61,7 +70,7 @@ public class MainActivity extends MvpAppCompatActivity implements MainActivityVi
         startActivity(intent);
     }
 
-    private class ClickRecipe implements RVListRecipes.OnClickRecipe{
+    private class ClickRecipe implements RVListRecipes.OnClickRecipe {
 
         @Override
         public void onClick(Recipes recipes) {

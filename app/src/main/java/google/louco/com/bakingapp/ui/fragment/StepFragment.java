@@ -1,6 +1,8 @@
 package google.louco.com.bakingapp.ui.fragment;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -37,6 +39,8 @@ public class StepFragment extends MvpFragment implements StepFragmentView {
     private Recipes recipes;
     private RVStepList rvStepList;
     private ActionActivity actionFragmentListener;
+    private View fragment;
+    private VideoFragment videoFragment;
 
     @BindView(R.id.tb_baking)
     Toolbar toolbar;
@@ -71,9 +75,10 @@ public class StepFragment extends MvpFragment implements StepFragmentView {
         super.onViewCreated(view, savedInstanceState);
 
         actionFragmentListener = (ActionActivity) getActivity();
+        fragment = view.findViewById(R.id.fl_description_recipes);
 
         if(recipes!=null) {
-            presenter.StartFragment(recipes);
+            presenter.StartFragment(recipes, fragment == null);
         }
         rvStepList = new RVStepList(new OnClickStep());
 
@@ -106,7 +111,23 @@ public class StepFragment extends MvpFragment implements StepFragmentView {
 
     @Override
     public void onClickStep(Step step) {
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
+        if (!step.getVideoURL().isEmpty()) {
+            videoFragment = new VideoFragment();
+            videoFragment.setURL(step.getVideoURL());
+
+            fragmentTransaction.replace(R.id.fl_Video_recipes, videoFragment);
+        } else {
+            if (videoFragment != null) fragmentTransaction.remove(videoFragment);
+        }
+
+        DescriptionFragment fragment = new DescriptionFragment();
+        fragment.setText(step.getDescription());
+        fragmentTransaction.replace(R.id.fl_description_recipes, fragment);
+
+        fragmentTransaction.commit();
     }
 
     @Override

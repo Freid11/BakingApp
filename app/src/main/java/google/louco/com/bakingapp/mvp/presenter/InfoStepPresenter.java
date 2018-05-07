@@ -3,8 +3,6 @@ package google.louco.com.bakingapp.mvp.presenter;
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
-import java.util.Objects;
-
 import google.louco.com.bakingapp.JsonObj.Recipes;
 import google.louco.com.bakingapp.JsonObj.Step;
 import google.louco.com.bakingapp.mvp.view.InfoStepFragmentView;
@@ -16,19 +14,31 @@ public class InfoStepPresenter extends MvpPresenter<InfoStepFragmentView> {
     private Recipes recipes;
     private Step step;
     private int Position;
+    private boolean orienation;
 
     public InfoStepPresenter() {
-
+        if(recipes != null){
+            getViewState().showTitle(recipes.getName());
+            onShowButtonListener();
+            getViewState().showStepInf(step);
+            getViewState().showStep(StepCount());
+        }
     }
 
-    public void SaveParam(Recipes recipes, Step step) {
+    public void SaveParam(Recipes recipes, Step step, boolean orienation) {
         this.recipes = recipes;
         this.step = step;
+        this.orienation = orienation;
+
         Position = SearchPositionById();
 
-        onShowButtonListener();
-        getViewState().showStepInf(step);
-        getViewState().showStep(StepCount());
+        if(orienation){
+            getViewState().showStepInf(step);
+        }else{
+            onShowButtonListener();
+            getViewState().showStepInf(step);
+            getViewState().showStep(StepCount());
+        }
     }
 
     public void ClickBack() {
