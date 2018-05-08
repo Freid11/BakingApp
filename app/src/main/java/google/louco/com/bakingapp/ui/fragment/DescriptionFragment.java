@@ -22,10 +22,13 @@ public class DescriptionFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        inflater = LayoutInflater.from(container.getContext());
-        View view = inflater.inflate(R.layout.description_fragment, container, false);
-        ButterKnife.bind(this, view);
-        return view;
+        if(container !=null) {
+            inflater = LayoutInflater.from(container.getContext());
+            View view = inflater.inflate(R.layout.description_fragment, container, false);
+            ButterKnife.bind(this, view);
+            return view;
+        }
+        return null;
     }
 
     @Override

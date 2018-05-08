@@ -136,6 +136,10 @@ public class StepFragment extends MvpFragment implements StepFragmentView {
     @Override
     public void onPause() {
         super.onPause();
+        CleaFragment();
+    }
+
+    private void CleaFragment(){
         if(fragment!=null) {
             FragmentManager fragmentManager = getFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -149,6 +153,8 @@ public class StepFragment extends MvpFragment implements StepFragmentView {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case android.R.id.home:
+                CleaFragment();
+                getFragmentManager().popBackStack();
                 getActivity().finish();
                 break;
         }
@@ -157,7 +163,6 @@ public class StepFragment extends MvpFragment implements StepFragmentView {
 
     @Override
     public void newFragmentInfo(Fragment fragment) {
-
         actionFragmentListener.onAction(fragment);
     }
 

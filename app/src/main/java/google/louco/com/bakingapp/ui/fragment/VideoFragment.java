@@ -49,11 +49,13 @@ public class VideoFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        assert container != null;
-        inflater = LayoutInflater.from(container.getContext());
-        View view = inflater.inflate(R.layout.video_fragment, container, false);
-        ButterKnife.bind(this, view);
-        return view;
+        if(container!=null) {
+            inflater = LayoutInflater.from(container.getContext());
+            View view = inflater.inflate(R.layout.video_fragment, container, false);
+            ButterKnife.bind(this, view);
+            return view;
+        }
+        return null;
     }
 
     @Override
