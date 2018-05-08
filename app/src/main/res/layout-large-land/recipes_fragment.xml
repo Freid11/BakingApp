@@ -65,6 +65,10 @@
                 android:id="@+id/fl_description_recipes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
+            <View
+                android:id="@+id/v_orient"
+                android:layout_width="0dp"
+                android:layout_height="0dp"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

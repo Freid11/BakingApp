@@ -77,10 +77,10 @@ public class StepFragment extends MvpFragment implements StepFragmentView {
 
         fragment = view.findViewById(R.id.v_orient);
 
-        presenter.setOrientation(fragment != null);
+        presenter.setOrientation(fragment == null);
 
         if(recipes!=null) {
-            presenter.StartFragment(recipes, fragment != null);
+            presenter.StartFragment(recipes, fragment == null);
         }
 
         rvStepList = new RVStepList(new OnClickStep());
@@ -157,6 +157,7 @@ public class StepFragment extends MvpFragment implements StepFragmentView {
 
     @Override
     public void newFragmentInfo(Fragment fragment) {
+
         actionFragmentListener.onAction(fragment);
     }
 
@@ -164,7 +165,7 @@ public class StepFragment extends MvpFragment implements StepFragmentView {
 
         @Override
         public void onClick(Step step) {
-            presenter.setOrientation(fragment != null);
+            presenter.setOrientation(fragment == null);
             presenter.ClickStep(step);
         }
     }
