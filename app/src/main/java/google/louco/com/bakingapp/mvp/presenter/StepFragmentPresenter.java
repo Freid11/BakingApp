@@ -13,6 +13,7 @@ public class StepFragmentPresenter extends MvpPresenter<StepFragmentView>{
 
     private Recipes recipes;
     private boolean orientation;
+
     public StepFragmentPresenter() {
         if(recipes != null){
             StartFragment(recipes,orientation);
@@ -37,5 +38,9 @@ public class StepFragmentPresenter extends MvpPresenter<StepFragmentView>{
         }else{
             getViewState().onClickStep(step);
         }
+    }
+
+    public void setOrientation(boolean orientation) {
+        this.orientation = orientation;
     }
 }

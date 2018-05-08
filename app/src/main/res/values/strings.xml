@@ -3,4 +3,6 @@
     <string name="error_Image" />
     <string name="back">BACK</string>
     <string name="next">NEXT</string>
+    <string name="appwidget_text">Show Recipes Baking</string>
+    <string name="add_widget">Add widget</string>
 </resources>

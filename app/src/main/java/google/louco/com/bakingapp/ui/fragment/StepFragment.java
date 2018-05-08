@@ -41,11 +41,10 @@ public class StepFragment extends MvpFragment implements StepFragmentView {
     private ActionActivity actionFragmentListener;
     private View fragment;
     private VideoFragment videoFragment;
+    private DescriptionFragment descriptionFragment;
 
     @BindView(R.id.tb_baking)
     Toolbar toolbar;
-    @BindView(R.id.ctb_baking)
-    CollapsingToolbarLayout colToolbar;
     @BindView(R.id.rv_step)
     RecyclerView rvStep;
     @BindView(R.id.tv_ingredient)
@@ -75,11 +74,15 @@ public class StepFragment extends MvpFragment implements StepFragmentView {
         super.onViewCreated(view, savedInstanceState);
 
         actionFragmentListener = (ActionActivity) getActivity();
-        fragment = view.findViewById(R.id.fl_description_recipes);
+
+        fragment = view.findViewById(R.id.v_orient);
+
+        presenter.setOrientation(fragment != null);
 
         if(recipes!=null) {
-            presenter.StartFragment(recipes, fragment == null);
+            presenter.StartFragment(recipes, fragment != null);
         }
+
         rvStepList = new RVStepList(new OnClickStep());
 
         rvStep.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -96,7 +99,7 @@ public class StepFragment extends MvpFragment implements StepFragmentView {
 
     @Override
     public void ShowNameBaking(String name) {
-        colToolbar.setTitle(name);
+        toolbar.setTitle(name);
     }
 
     @Override
@@ -123,11 +126,23 @@ public class StepFragment extends MvpFragment implements StepFragmentView {
             if (videoFragment != null) fragmentTransaction.remove(videoFragment);
         }
 
-        DescriptionFragment fragment = new DescriptionFragment();
-        fragment.setText(step.getDescription());
-        fragmentTransaction.replace(R.id.fl_description_recipes, fragment);
+        descriptionFragment = new DescriptionFragment();
+        descriptionFragment.setText(step.getDescription());
+        fragmentTransaction.replace(R.id.fl_description_recipes, descriptionFragment);
 
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if(fragment!=null) {
+            FragmentManager fragmentManager = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            if(videoFragment!=null) fragmentTransaction.replace(R.id.fl_Video_recipes, videoFragment);
+            if(descriptionFragment!=null) fragmentTransaction.replace(R.id.fl_description_recipes, descriptionFragment);
+            fragmentTransaction.commit();
+        }
     }
 
     @Override
@@ -149,6 +164,7 @@ public class StepFragment extends MvpFragment implements StepFragmentView {
 
         @Override
         public void onClick(Step step) {
+            presenter.setOrientation(fragment != null);
             presenter.ClickStep(step);
         }
     }

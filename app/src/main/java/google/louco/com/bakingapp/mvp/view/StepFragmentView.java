@@ -3,6 +3,7 @@ package google.louco.com.bakingapp.mvp.view;
 import android.app.Fragment;
 
 import com.arellomobile.mvp.MvpView;
+import com.arellomobile.mvp.viewstate.strategy.OneExecutionStateStrategy;
 import com.arellomobile.mvp.viewstate.strategy.SkipStrategy;
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 
@@ -14,6 +15,8 @@ public interface StepFragmentView extends MvpView {
     void ShowNameBaking(String name);
     void ShowIngredient(String ingredient);
     void ShowStep(List<Step> steps);
+
+    @StateStrategyType(value = OneExecutionStateStrategy.class)
     void onClickStep(Step step);
     @StateStrategyType(value = SkipStrategy.class)
     void newFragmentInfo(Fragment fragment);

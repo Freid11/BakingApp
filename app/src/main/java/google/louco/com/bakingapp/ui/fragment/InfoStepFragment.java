@@ -95,9 +95,9 @@ public class InfoStepFragment extends MvpFragment implements google.louco.com.ba
             if (videoFragment != null) fragmentTransaction.remove(videoFragment);
         }
 
-        DescriptionFragment fragment = new DescriptionFragment();
-        fragment.setText(step.getDescription());
-        fragmentTransaction.replace(R.id.fl_description, fragment);
+        DescriptionFragment descriptionFragment = new DescriptionFragment();
+        descriptionFragment.setText(step.getDescription());
+        fragmentTransaction.replace(R.id.fl_description, descriptionFragment);
 
         fragmentTransaction.commit();
     }

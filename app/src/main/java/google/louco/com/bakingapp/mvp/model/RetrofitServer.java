@@ -19,7 +19,6 @@ public class RetrofitServer {
 
     public RetrofitServer() {
         RetrofitAplication.getComponent().inject(this);
-
     }
 
     public void getRecipes(DisposableObserver<List<Recipes>> disposableObserver){

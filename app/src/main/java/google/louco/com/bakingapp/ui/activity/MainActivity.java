@@ -51,7 +51,6 @@ public class MainActivity extends MvpAppCompatActivity implements MainActivityVi
             recyclerViewLand.setLayoutManager(new GridLayoutManager(this,2));
             recyclerViewLand.setAdapter(rvListRecipes);
         }
-
     }
 
     @Override

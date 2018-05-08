@@ -34,7 +34,7 @@ public class VideoFragment extends Fragment {
     @BindView(R.id.pl_video)
     PlayerView pvVideo;
 
-    private String URLText;
+    private String URLText = "";
     private SimpleExoPlayer player;
     private boolean isFull = false;
     private long playbackPosition = 0;
@@ -64,7 +64,7 @@ public class VideoFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        if (Util.SDK_INT > 23) {
+        if (Util.SDK_INT > 23 && !URLText.isEmpty()) {
             initializePlayer();
         }
     }
@@ -75,7 +75,7 @@ public class VideoFragment extends Fragment {
         if(isFull) {
             hideSystemUi();
         }
-        if ((Util.SDK_INT <= 23 || player == null)) {
+        if ((Util.SDK_INT <= 23 || player == null) && !URLText.isEmpty()) {
             initializePlayer();
         }
     }
