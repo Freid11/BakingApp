@@ -13,15 +13,10 @@ import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.DefaultRenderersFactory;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.SimpleExoPlayer;
-import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
-import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
-import com.google.android.exoplayer2.trackselection.TrackSelection;
 import com.google.android.exoplayer2.ui.PlayerView;
-import com.google.android.exoplayer2.upstream.DataSource;
-import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 
@@ -36,10 +31,13 @@ public class VideoFragment extends Fragment {
 
     private String URLText = "";
     private SimpleExoPlayer player;
+    private String KEY_SAVE_POSITION = "playbackPosition";
+    private String KEY_SAVE_CURRENT = "currentWindow";
+    private String KEY_SAVE_PLAY = "PLAY";
     private boolean isFull = false;
     private long playbackPosition = 0;
     private long currentWindow = 0;
-    private boolean playWhenReady;
+    private boolean playWhenReady = false;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,6 +59,11 @@ public class VideoFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        if(savedInstanceState!=null){
+            playbackPosition = savedInstanceState.getLong(KEY_SAVE_POSITION);
+            currentWindow = savedInstanceState.getLong(KEY_SAVE_CURRENT);
+            playWhenReady = savedInstanceState.getBoolean(KEY_SAVE_PLAY);
+        }
     }
 
     @Override
@@ -119,10 +122,10 @@ public class VideoFragment extends Fragment {
                 new DefaultTrackSelector(), new DefaultLoadControl());
 
         pvVideo.setPlayer(player);
-        player.setPlayWhenReady(false);
-        player.seekTo((int) currentWindow, playbackPosition);
         MediaSource source = buildMediaSource(Uri.parse(URLText));
         player.prepare(source);
+        player.seekTo(playbackPosition);
+        player.setPlayWhenReady(playWhenReady);
     }
 
     private void releasePlayer() {
@@ -135,11 +138,43 @@ public class VideoFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putLong(KEY_SAVE_POSITION, playbackPosition);
+        outState.putLong(KEY_SAVE_CURRENT, currentWindow);
+        outState.putBoolean(KEY_SAVE_PLAY, playWhenReady);
+        super.onSaveInstanceState(outState);
+    }
+
     public void setFull(boolean full) {
         isFull = full;
     }
 
     public void setURL(String URL) {
         this.URLText = URL;
+    }
+
+    public long getPlaybackPosition() {
+        return playbackPosition;
+    }
+
+    public void setPlaybackPosition(long playbackPosition) {
+        this.playbackPosition = playbackPosition;
+    }
+
+    public long getCurrentWindow() {
+        return currentWindow;
+    }
+
+    public void setCurrentWindow(long currentWindow) {
+        this.currentWindow = currentWindow;
+    }
+
+    public boolean isPlayWhenReady() {
+        return playWhenReady;
+    }
+
+    public void setPlayWhenReady(boolean playWhenReady) {
+        this.playWhenReady = playWhenReady;
     }
 }

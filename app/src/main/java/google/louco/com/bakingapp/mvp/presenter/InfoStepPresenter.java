@@ -16,6 +16,11 @@ public class InfoStepPresenter extends MvpPresenter<InfoStepFragmentView> {
     private int Position;
     private boolean orienation;
 
+    private long playbackPosition = 1000;
+    private long currentWindow = 0;
+    private boolean playWhenReady = false;
+
+
     public InfoStepPresenter() {
         if(recipes != null){
             getViewState().showTitle(recipes.getName());
@@ -45,6 +50,7 @@ public class InfoStepPresenter extends MvpPresenter<InfoStepFragmentView> {
         Position--;
         step = recipes.getSteps().get(Position);
         onShowButtonListener();
+        onNull();
         getViewState().showStepInf(step);
         getViewState().showStep(StepCount());
     }
@@ -53,6 +59,7 @@ public class InfoStepPresenter extends MvpPresenter<InfoStepFragmentView> {
         Position++;
         step = recipes.getSteps().get(Position);
         onShowButtonListener();
+        onNull();
         getViewState().showStepInf(step);
         getViewState().showStep(StepCount());
     }
@@ -76,5 +83,29 @@ public class InfoStepPresenter extends MvpPresenter<InfoStepFragmentView> {
 
     private String StepCount() {
         return "Page " + String.valueOf(Position + 1) + " / " + recipes.getSteps().size();
+    }
+
+    private void onNull(){
+        playbackPosition = 0;
+        currentWindow = 0;
+        playWhenReady = false;
+    }
+
+    public void savePosition(long playbackPosition, long currentWindow, boolean playWhenReady){
+        this.playbackPosition = playbackPosition;
+        this.currentWindow = currentWindow;
+        this.playWhenReady = playWhenReady;
+    }
+
+    public long getPlaybackPosition() {
+        return playbackPosition;
+    }
+
+    public long getCurrentWindow() {
+        return currentWindow;
+    }
+
+    public boolean isPlayWhenReady() {
+        return playWhenReady;
     }
 }

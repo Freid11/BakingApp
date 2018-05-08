@@ -89,6 +89,9 @@ public class InfoStepFragment extends MvpFragment implements google.louco.com.ba
             videoFragment.setURL(step.getVideoURL());
 
             if (orientationView == null) videoFragment.setFull(true);
+            videoFragment.setPlaybackPosition(presenter.getPlaybackPosition());
+            videoFragment.setCurrentWindow(presenter.getCurrentWindow());
+            videoFragment.setPlayWhenReady(presenter.isPlayWhenReady());
 
             fragmentTransaction.replace(R.id.fl_Video, videoFragment);
         } else {
@@ -105,6 +108,9 @@ public class InfoStepFragment extends MvpFragment implements google.louco.com.ba
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+        presenter.savePosition(videoFragment.getPlaybackPosition(),
+                videoFragment.getCurrentWindow(),
+                videoFragment.isPlayWhenReady());
     }
 
     @Override

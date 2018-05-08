@@ -4,7 +4,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +53,9 @@ public class RVListRecipes extends RecyclerView.Adapter<RVListRecipes.ViewHolder
         @BindView(R.id.tv_name_recipe)
         TextView textView;
 
+        @BindView(R.id.iv_image_baking)
+        ImageView imageView;
+
         private Recipes lastRecipe;
 
         ViewHolder(View itemView) {
@@ -62,6 +68,14 @@ public class RVListRecipes extends RecyclerView.Adapter<RVListRecipes.ViewHolder
         void bind(Recipes recipes){
             lastRecipe = recipes;
             textView.setText(recipes.getName());
+            if(recipes.getImage().isEmpty()){
+                imageView.setImageResource(R.drawable.ic_local_cafe_black_24dp);
+            }else {
+                Picasso.get()
+                        .load(recipes.getImage())
+                        .placeholder(R.drawable.ic_local_cafe_black_24dp)
+                        .into(imageView);
+            }
         }
     }
 

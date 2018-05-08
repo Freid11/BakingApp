@@ -7,26 +7,30 @@
     android:elevation="@dimen/elevation_cart"
     tools:targetApi="lollipop">
 
-    <android.support.constraint.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="horizontal"
         android:layout_gravity="center_horizontal">
+        <ImageView
+            android:layout_weight="1"
+            android:id="@+id/iv_image_baking"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/error_Image" />
         <TextView
+            android:layout_weight="1"
             android:id="@+id/tv_name_recipe"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginBottom="8dp"
             android:textSize="20sp"
             android:textStyle="bold"
             android:gravity="center"
             app:layout_constraintBottom_toBottomOf="parent" />
 
-        <ImageView
-            android:id="@+id/iv_image_baking"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:contentDescription="@string/error_Image" />
 
-    </android.support.constraint.ConstraintLayout>
+
+    </LinearLayout>
 
 </android.support.v7.widget.CardView>
