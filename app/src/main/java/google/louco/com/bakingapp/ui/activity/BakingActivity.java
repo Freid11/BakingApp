@@ -5,16 +5,22 @@ import android.app.FragmentManager;
 import android.content.Intent;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
+import java.util.List;
+
 import butterknife.ButterKnife;
 import google.louco.com.bakingapp.JsonObj.Recipes;
 import google.louco.com.bakingapp.R;
+import google.louco.com.bakingapp.components.ServiceWidgetList;
+import google.louco.com.bakingapp.components.WidgetService;
 import google.louco.com.bakingapp.mvp.model.ActionActivity;
 import google.louco.com.bakingapp.mvp.presenter.BakingPresenterActivity;
 import google.louco.com.bakingapp.mvp.view.BakingActivityView;
+import google.louco.com.bakingapp.ui.widget.BakingWidget;
 
 public class BakingActivity extends MvpAppCompatActivity implements ActionActivity, BakingActivityView {
 
@@ -31,10 +37,21 @@ public class BakingActivity extends MvpAppCompatActivity implements ActionActivi
 
         if(savedInstanceState == null) {
             Intent intent = this.getIntent();
-            Bundle bundleRecipes = intent.getExtras();
-            if (bundleRecipes != null ) {
-                presenterActivity.startActivity(Recipes.FromJson(bundleRecipes.getString(Recipes.KEY_SERIALIZABLE)));
+            long mPlantId = getIntent().getLongExtra(BakingWidget.ITEM_POSITION, -1);
+            if(mPlantId != -1){
+                presenterActivity.startActivityPosition((int) mPlantId);
+            }else {
+                Bundle bundleRecipes = intent.getExtras();
+                if (bundleRecipes != null) {
+                    String text = bundleRecipes.getString(Recipes.KEY_SERIALIZABLE);
+                    if (text != null) {
+                        presenterActivity.startActivity(Recipes.FromJson(text));
+                    } else {
+
+                    }
+                }
             }
+
         }
 
         fragmentManager = getFragmentManager();

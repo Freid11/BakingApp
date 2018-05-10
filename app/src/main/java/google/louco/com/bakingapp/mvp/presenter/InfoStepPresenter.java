@@ -16,7 +16,7 @@ public class InfoStepPresenter extends MvpPresenter<InfoStepFragmentView> {
     private int Position;
     private boolean orienation;
 
-    private long playbackPosition = 1000;
+    private long playbackPosition = 0;
     private long currentWindow = 0;
     private boolean playWhenReady = false;
 

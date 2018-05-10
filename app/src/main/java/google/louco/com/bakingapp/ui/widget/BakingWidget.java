@@ -3,12 +3,21 @@ package google.louco.com.bakingapp.ui.widget;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.widget.RemoteViews;
-import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import google.louco.com.bakingapp.JsonObj.Recipes;
 import google.louco.com.bakingapp.R;
+import google.louco.com.bakingapp.components.ServiceWidgetList;
+import google.louco.com.bakingapp.components.WidgetService;
+import google.louco.com.bakingapp.mvp.model.ActionActivity;
+import google.louco.com.bakingapp.ui.activity.BakingActivity;
 import google.louco.com.bakingapp.ui.activity.MainActivity;
 
 /**
@@ -16,16 +25,29 @@ import google.louco.com.bakingapp.ui.activity.MainActivity;
  */
 public class BakingWidget extends AppWidgetProvider {
 
-    private static String action_key = "APPWIDGET_MESS";
+    public static final String WIDGET = "Widget";
+    public static String action_key = "android.appwidget.action.APPWIDGET_UPDATE";
 
     private static String KEY_MESSAGE = "mes";
+    public final static String ITEM_POSITION = "item_position";
+
+    public static List<Recipes> recipesList = new ArrayList();
+
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
 
-        CharSequence widgetText = context.getString(R.string.appwidget_text);
-        // Construct the RemoteViews object
+
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.baking_widget);
-        views.setTextViewText(R.id.appwidget_text, widgetText);
+
+        views.setTextViewText(R.id.appwidget_text, "BakingApp  "+ recipesList.size());
+
+        Log.d("Louco", " updateAppWidget");
+        Intent active = new Intent(context, ServiceWidgetList.class);
+        views.setRemoteAdapter(R.id.lv_baking, active);
+
+        Intent intent = new Intent(context , BakingActivity.class);
+        PendingIntent startActivity = PendingIntent.getActivity(context,0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        views.setPendingIntentTemplate(R.id.lv_baking, startActivity);
         /**
          * active broadcast
          */
@@ -36,13 +58,20 @@ public class BakingWidget extends AppWidgetProvider {
         /**
          * active go Activity
          */
-        Intent active = new Intent(context, MainActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context,0,active,0);
 
-        views.setOnClickPendingIntent(R.id.appwidget_text, pendingIntent);
+        /*Intent active = new Intent(context, BakingActivity.class);
+        active.putExtra(Recipes.KEY_SERIALIZABLE, new Gson().toJson(recipesList.get(0)));
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(context,0,active,0);*/
+
+       //views.setOnClickPendingIntent(R.id.appwidget_text, pendingIntent);
 
         // Instruct the widget manager to update the widget
+        int appWidgetIds[] = appWidgetManager.getAppWidgetIds(new ComponentName(context, BakingWidget.class));
+
         appWidgetManager.updateAppWidget(appWidgetId, views);
+        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.lv_baking);
+
     }
 
     @Override
@@ -51,9 +80,14 @@ public class BakingWidget extends AppWidgetProvider {
         final String text = intent.getAction();
 
         if(text.equals(action_key)){
-            Intent activity = new Intent(context, MainActivity.class);
-            context.startActivity(activity);
+            Log.d("Louco", action_key+"  "+recipesList.size());
+            AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+            int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(context, BakingWidget.class));
+            for(int appWdgepid : appWidgetIds){
+                updateAppWidget(context, appWidgetManager, appWdgepid);
+            }
         }
+
         super.onReceive(context, intent);
 
     }
@@ -62,8 +96,10 @@ public class BakingWidget extends AppWidgetProvider {
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         // There may be multiple widgets active, so update all of them
         for (int appWidgetId : appWidgetIds) {
+            WidgetService.startWidgetService(context);
             updateAppWidget(context, appWidgetManager, appWidgetId);
         }
+
     }
 
     @Override

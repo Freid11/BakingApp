@@ -128,6 +128,7 @@ public class StepFragment extends MvpFragment implements StepFragmentView {
 
         descriptionFragment = new DescriptionFragment();
         descriptionFragment.setText(step.getDescription());
+        descriptionFragment.setThumbnailURL(step.getThumbnailURL());
         fragmentTransaction.replace(R.id.fl_description_recipes, descriptionFragment);
 
         fragmentTransaction.commit();

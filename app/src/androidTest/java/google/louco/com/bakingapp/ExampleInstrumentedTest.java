@@ -22,5 +22,7 @@ public class ExampleInstrumentedTest {
         Context appContext = InstrumentationRegistry.getTargetContext();
 
         assertEquals("google.louco.com.bakingapp", appContext.getPackageName());
+
+        
     }
 }

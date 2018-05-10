@@ -100,6 +100,7 @@ public class InfoStepFragment extends MvpFragment implements google.louco.com.ba
 
         DescriptionFragment descriptionFragment = new DescriptionFragment();
         descriptionFragment.setText(step.getDescription());
+        descriptionFragment.setThumbnailURL(step.getThumbnailURL());
         fragmentTransaction.replace(R.id.fl_description, descriptionFragment);
 
         fragmentTransaction.commit();
