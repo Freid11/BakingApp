@@ -42,15 +42,21 @@ public class DescriptionFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        description.setText(textDescription);
-        if(thumbnailURL.isEmpty()){
-            imageView.setImageResource(R.drawable.ic_local_cafe_black_24dp);
-        }else {
-            Picasso.get()
-                    .load(thumbnailURL)
-                    .placeholder(R.drawable.ic_local_cafe_black_24dp)
-                    .into(imageView);
+        if(textDescription!=null) {
+            description.setText(textDescription);
         }
+
+        if(thumbnailURL!=null) {
+            if (thumbnailURL.isEmpty()) {
+                imageView.setImageResource(R.drawable.ic_local_cafe_black_24dp);
+            } else {
+                Picasso.get()
+                        .load(thumbnailURL)
+                        .placeholder(R.drawable.ic_local_cafe_black_24dp)
+                        .into(imageView);
+            }
+        }
+
     }
 
     public void setThumbnailURL(String thumbnailURL) {

@@ -25,10 +25,10 @@ import google.louco.com.bakingapp.ui.activity.MainActivity;
  */
 public class BakingWidget extends AppWidgetProvider {
 
-    public static final String WIDGET = "Widget";
     public static String action_key = "android.appwidget.action.APPWIDGET_UPDATE";
 
     private static String KEY_MESSAGE = "mes";
+    private static String Ingridient = "";
     public final static String ITEM_POSITION = "item_position";
 
     public static List<Recipes> recipesList = new ArrayList();
@@ -39,15 +39,18 @@ public class BakingWidget extends AppWidgetProvider {
 
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.baking_widget);
 
-        views.setTextViewText(R.id.appwidget_text, "BakingApp  "+ recipesList.size());
+        views.setTextViewText(R.id.appwidget_text, Ingridient);
 
         Log.d("Louco", " updateAppWidget");
         Intent active = new Intent(context, ServiceWidgetList.class);
         views.setRemoteAdapter(R.id.lv_baking, active);
 
-        Intent intent = new Intent(context , BakingActivity.class);
-        PendingIntent startActivity = PendingIntent.getActivity(context,0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        views.setPendingIntentTemplate(R.id.lv_baking, startActivity);
+        Intent intent = new Intent(context , BakingWidget.class);
+        intent.setAction("Position");
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context,0,intent,0);
+
+        views.setPendingIntentTemplate(R.id.lv_baking, pendingIntent);
+
         /**
          * active broadcast
          */
@@ -78,6 +81,16 @@ public class BakingWidget extends AppWidgetProvider {
     public void onReceive(Context context, Intent intent) {
 
         final String text = intent.getAction();
+        final long number = intent.getLongExtra(ITEM_POSITION, -1);
+
+        if(number!= -1){
+            Ingridient = recipesList.get((int) number).getIngredients();
+            AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+            int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(context, BakingWidget.class));
+            for(int appWdgepid : appWidgetIds){
+                updateAppWidget(context, appWidgetManager, appWdgepid);
+            }
+        }
 
         if(text.equals(action_key)){
             Log.d("Louco", action_key+"  "+recipesList.size());

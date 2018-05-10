@@ -10,4 +10,6 @@ import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 public interface BakingActivityView extends MvpView {
     @StateStrategyType(value = OneExecutionStateStrategy.class)
     void showFragment(Fragment fragment);
+    @StateStrategyType(value = OneExecutionStateStrategy.class)
+    void firstShowFragment(Fragment fragment);
 }

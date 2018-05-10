@@ -53,7 +53,6 @@ public class BakingActivity extends MvpAppCompatActivity implements ActionActivi
             }
 
         }
-
         fragmentManager = getFragmentManager();
     }
 
@@ -62,6 +61,13 @@ public class BakingActivity extends MvpAppCompatActivity implements ActionActivi
         fragmentManager.beginTransaction()
                 .replace(R.id.fl_baking, fragment)
                 .addToBackStack(null)
+                .commit();
+    }
+
+    @Override
+    public void firstShowFragment(Fragment fragment) {
+        fragmentManager.beginTransaction()
+        .replace(R.id.fl_baking, fragment)
                 .commit();
     }
 

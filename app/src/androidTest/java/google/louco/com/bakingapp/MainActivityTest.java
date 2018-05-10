@@ -33,8 +33,5 @@ public class MainActivityTest {
         onView(withId(R.id.rv_list_recipes))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
 
-        onView(withId(R.id.tb_baking)).check(matches(withText(BakingName)));
-        //onData().inAdapterView(withId(R.id.rv_list_recipes)).atPosition(1).perform(click());
-        //onView(new RecyclerViewMatcher())
     }
 }

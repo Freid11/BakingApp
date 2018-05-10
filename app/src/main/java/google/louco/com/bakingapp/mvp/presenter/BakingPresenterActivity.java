@@ -41,7 +41,7 @@ public class BakingPresenterActivity extends MvpPresenter<BakingActivityView>{
         public void onNext(List<Recipes> recipes) {
             StepFragment stepFragment = new StepFragment();
             stepFragment.setRecipes(recipes.get(position));
-            getViewState().showFragment(stepFragment);
+            getViewState().firstShowFragment(stepFragment);
         }
 
         @Override
