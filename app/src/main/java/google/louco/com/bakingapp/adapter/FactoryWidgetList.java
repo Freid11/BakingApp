@@ -49,7 +49,7 @@ public class FactoryWidgetList implements RemoteViewsFactory {
 
         Bundle extras = new Bundle();
         extras.putLong(BakingWidget.ITEM_POSITION, position);
-
+        extras.putString(BakingWidget.KEY_INGRIDIENTS, recipesList.get(position).getIngredients());
         Intent clickIntent = new Intent();
         clickIntent.putExtras(extras);
 
